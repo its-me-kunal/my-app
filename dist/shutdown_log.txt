@@ -1,0 +1,2 @@
+2025-03-17 23:00:26 - Monitoring started.
+2025-03-17 23:07:53 - System forcefully shut down due to inactivity.
