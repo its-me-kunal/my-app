@@ -10,7 +10,7 @@ from pystray import MenuItem as item, Icon, Menu
 from PIL import Image, ImageDraw
 from ttkthemes import ThemedStyle
 
-# Developed by Mr. Kunal
+# Developed by Mr.Kunal
 
 class AutoShutdownApp:
     def __init__(self, root):
@@ -18,17 +18,17 @@ class AutoShutdownApp:
         self.root.title("Auto Shutdown Monitor")
         self.root.geometry("400x350")
         self.root.resizable(False, False)
-        self.root.configure(bg="#2C3E50")  # Professional Dark Theme
+        self.root.configure(bg="#2C3E50")  
 
         self.running = False
-        self.idle_threshold = 1800  # Default 30 minutes
+        self.idle_threshold = 1800  
         self.current_idle_time = 0
 
-        # Apply Modern Theme
+        
         style = ThemedStyle(root)
         style.set_theme("arc")
 
-        # UI Elements
+        
         self.status_var = tk.StringVar(value="Monitoring Stopped")
         self.label = ttk.Label(root, textvariable=self.status_var, font=("Arial", 12, "bold"), background="#2C3E50", foreground="white")
         self.label.pack(pady=10)
@@ -44,7 +44,7 @@ class AutoShutdownApp:
 
         self.threshold_entry = ttk.Entry(root, width=10, justify='center', font=("Arial", 10))
         self.threshold_entry.pack(pady=5)
-        self.threshold_entry.insert(0, "30")  # Default value
+        self.threshold_entry.insert(0, "30") 
 
         self.start_button = ttk.Button(root, text="Start Monitoring", command=self.start_monitoring)
         self.start_button.pack(pady=5)
@@ -68,23 +68,23 @@ class AutoShutdownApp:
 
         if ctypes.windll.user32.GetLastInputInfo(ctypes.byref(lii)):
             millis = ctypes.windll.kernel32.GetTickCount() - lii.dwTime
-            return millis // 1000  # Convert milliseconds to seconds
+            return millis // 1000  
 
         return 0
 
     def force_shutdown(self):
         """Force shutdown the system without user interaction."""
         if os.name == "nt":
-            os.system("shutdown /s /f /t 0")  # Windows: /f forces shutdown, /t 0 = instant
+            os.system("shutdown /s /f /t 0")  
         else:
-            os.system("shutdown -h now")  # Linux/macOS
+            os.system("shutdown -h now")  
 
     def monitor_idle_time(self):
         while self.running:
             try:
-                self.idle_threshold = int(self.threshold_entry.get()) * 60  # Convert minutes to seconds
+                self.idle_threshold = int(self.threshold_entry.get()) * 60  
             except ValueError:
-                self.idle_threshold = 1800  # Default to 30 minutes if invalid input
+                self.idle_threshold = 1800  
 
             self.current_idle_time = self.get_idle_time()
             self.timer_label.config(text=f"Idle Time: {self.current_idle_time}s")
@@ -93,10 +93,10 @@ class AutoShutdownApp:
             self.progress["value"] = progress_percentage
 
             if self.current_idle_time >= self.idle_threshold:
-                self.force_shutdown()  # Directly shutdown without alerts
-                break  # Stop the thread after shutdown
+                self.force_shutdown()  
+                break  
 
-            time.sleep(5)  # Check every 5 seconds
+            time.sleep(5)  
 
     def start_monitoring(self):
         if not self.running:
